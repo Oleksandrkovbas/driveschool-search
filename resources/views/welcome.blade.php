@@ -45,6 +45,8 @@
             padding: 10px 0px 0px 0px;
             font-size: 15px;
             height: 40px;
+            line-height: 13px;
+            word-wrap: break-word;
         }
 
         .silver{
@@ -162,9 +164,15 @@
                                     originalArray.forEach(orderArray);
 
                                     function orderArray(item){
-                                        const valuesToMove = response.filter(item => item.coop == 'silver');
-                                        const remainingValues = response.filter(item => item.coop !== 'silver');
-                                        originalArray = valuesToMove.concat(remainingValues);                                        
+                                        if(item.coop == 'silver'){
+                                            const valuesToMove = response.filter(item => item.coop == 'silver');
+                                            const remainingValues = response.filter(item => item.coop !== 'silver');
+                                            originalArray = valuesToMove.concat(remainingValues);        
+                                        }else if(item.coop == 'gold'){
+                                            const valuesToMove = response.filter(item => item.coop == 'gold');
+                                            const remainingValues = response.filter(item => item.coop !== 'gold');
+                                            originalArray = valuesToMove.concat(remainingValues);   
+                                        }                                                                       
                                     }                                    
                                     
                                     originalArray.forEach(displayTable);
