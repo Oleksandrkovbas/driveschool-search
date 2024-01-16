@@ -351,7 +351,11 @@
             var priceTable = $('#priceTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{route('getDataTableData')}}",
+                ajax: {
+                    "url":"{{route('getDataTableData')}}",
+                    'type': 'POST',
+                    'data': {_token: CSRF_TOKEN}
+                },
                 columns: [
                     { data: "action"},
                     { data: 'id' },
