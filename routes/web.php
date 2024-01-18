@@ -29,6 +29,8 @@ Route::post('/updatePrices', [App\Http\Controllers\PricesController::class, 'upd
 Route::post('/addPrices', [App\Http\Controllers\PricesController::class, 'addPrices'])->name('addPrices');
 Route::post('/deletePrice', [App\Http\Controllers\PricesController::class, 'deletePrice'])->name('deletePrice');
 
+Route::get('/codigo-postal/{zipcode}', [App\Http\Controllers\SchoolController::class, 'show'])->name('getShools.show');
+
 
 
 Route::get('/posts', PostController::class .'@index')->name('posts.index');

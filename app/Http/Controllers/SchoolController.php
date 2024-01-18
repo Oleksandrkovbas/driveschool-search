@@ -18,4 +18,16 @@ class SchoolController extends Controller
             return response()->json($schools, 200);
         }
     }
+
+    public function show(Request $request){
+        $zipcode = $request->zipcode;
+        $schools = Prices::where('zipcode', '=', $zipcode)->get();
+        if(count($schools)>1){
+            return view('priceTable.index', compact('schools', 'zipcode'));
+        }
+        else{
+            $schools = Prices::where('coop', '=', 'gold')->get();
+            return view('priceTable.index', compact('schools', 'zipcode'));
+        }             
+    }
 }

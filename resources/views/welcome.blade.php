@@ -21,18 +21,23 @@
             padding: 0px 0px 0px 0px;
             box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
             position: relative;
-            width: 220px;
+            width: 190px;
+        }
+
+        .appendCol{
+            width: 220px !important;
         }
 
         .title{
             text-align: center;               
             /* background-color: #6262c5;
             color: #fff; */
-            font-size: 14px;
+            font-size: 19px;
             font-weight: 600;
             padding: 10px 0px;
             box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);     
-            height: 90px;      
+            height: 90px;   
+            padding: 10px 0;   
         }
 
         .first_title{
@@ -52,8 +57,8 @@
             border-bottom: solid 1px #a78f8f;
             padding: 10px 0px 0px 0px;
             font-size: 15px;
-            height: 40px;
-            line-height: 13px;
+            height: 58px;
+            line-height: 23px;
             word-wrap: break-word;
         }
 
@@ -84,8 +89,14 @@
 
         .badge-img img{
            width: 55px;
-           margin-top: -50px;
+           position: absolute;
+            top: -35px;
+            left: 80px;
         }      
+
+        .show-zipcode{
+            display: none;
+        }
 
     </style>
 @endsection
@@ -113,15 +124,16 @@
                 </div>
             </div>
 
-            <div class="mt-3 mb-3 text-center">
+            <div class="mt-3 mb-3 text-center show-zipcode">
                 <h5>
-                    Descubre la mejor autoescuela en el código postal 08206
+                    Descubre la mejor autoescuela en el código postal
+                    <span class = 'search-zipCode'>08206</span> 
                 </h5>
             </div>
             
         <div>
     </section>
-<!--     
+    
     <section class = 'blog-section'>
         <div class="container">
             <div class="mt-5" id = "blog"> 
@@ -145,55 +157,6 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
-            </div>
-        </div>
-    </section> -->
-
-    <section class = 'pricingTable-section'>
-        <div class="container">
-            <div class="mt-5">
-                
-                <div class="description">
-
-                    <div class="mt-5 priceTable">
-                        <div class="title first_title">
-                            Producto
-                        </div>
-                        <div class="divider">
-                            Datos básicos
-                        </div>
-                        <div class="priceItem">
-                            Teléfono
-                        </div>
-                        <div class="priceItem">
-                            Web
-                        </div>
-                        <div class="divider">
-                            Servicios
-                        </div>
-                        <div class="priceItem">
-                            Libros 
-                        </div>
-                        <div class="priceItem">
-                            Tests  
-                        </div>
-                        <div class="priceItem">
-                            Teóricas Presenciales
-                        </div>
-                        <div class="priceItem">
-                            Teóricas Online
-                        </div>
-                        <div class="priceItem">
-                            Nº Prácticas
-                        </div>
-                        <div class="priceItem">
-                            Precio 
-                        </div>
-                        <div class="priceItem">
-                            Clase extra
-                        </div>                       
-                    </div>
                 </div>
             </div>
         </div>
@@ -249,139 +212,111 @@
 
         $(document).ready(function(){
             var numberRegex = /^\d+$/;  
+            
+            document.querySelector('#zipcode').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    var zipcode = $('#zipcode').val();
+                    if(numberRegex.test(zipcode)){
+                        if(zipcode.length != 5){
+                            Swal.fire({
+                                title: "Warning!",
+                                text: "Please check your zip-code. zip-code has 5 letters.",
+                                icon: "success"
+                            });
+                        }else{
+                            
+                            $('.show-zipcode').css('display', 'block');
+                            $('.search-zipCode').text(zipcode);
+
+                            var url = "{{ route('getShools.show', ":slug") }}";
+                            url = url.replace(':slug', zipcode);
+                              
+                            $.ajax({
+                                url: "{{ route('getShools') }}",
+                                type: 'post',
+                                data: {_token: CSRF_TOKEN, zipcode: zipcode},
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response.length > 0){                                       
+                                        window.location.href=url;  
+                                    }else{  
+                                        Swal.fire({
+                                            title: "Warning!",
+                                            text: "We do not have any driving school in that Zip Code, please check our preferred Partner in that province.",
+                                            icon: "success",
+                                            confirmButtonText: 'Accept',
+                                            showCancelButton: true,
+                                        }).then((result) =>{
+                                            if(result.isConfirmed){
+                                                window.location.href=url;  
+                                            }else{
+                                                console.log('Cancelled!')
+                                            }                                            
+                                        });                              
+                                    }
+                                }
+                            })
+                        }
+                    }else{      
+                        Swal.fire({
+                            title: "Warning!",
+                            text: "Zip code must number.",
+                            icon: "success"
+                        });                
+                    }
+                }
+            });
+
 
             $('#searchBtn').click(function(){
                 var zipcode = $('#zipcode').val();
-                $('.appendCol').css('display', 'none');
-                
                 if(numberRegex.test(zipcode)){
                     if(zipcode.length != 5){
-                       alert('Please check your zip-code. zip-code has 5 letters.');
+                        Swal.fire({
+                            title: "Warning!",
+                            text: "Please check your zip-code. zip-code has 5 letters.",
+                            icon: "success"
+                        });
                     }else{
+                        
+                        $('.show-zipcode').css('display', 'block');
+                        $('.search-zipCode').text(zipcode);
+
+                        var url = "{{ route('getShools.show', ":slug") }}";
+                        url = url.replace(':slug', zipcode);
+                            
                         $.ajax({
                             url: "{{ route('getShools') }}",
                             type: 'post',
                             data: {_token: CSRF_TOKEN, zipcode: zipcode},
                             dataType: 'json',
                             success: function(response){
-                                if(response.length > 0){
-                                    $('.description').css('display', 'flex');
-
-                                    var originalArray = response;
-                                    originalArray.forEach(orderArray);
-
-                                    function orderArray(item){
-                                        if(item.coop == 'silver'){
-                                            const valuesToMove = response.filter(item => item.coop == 'silver');
-                                            const remainingValues = response.filter(item => item.coop !== 'silver');
-                                            originalArray = valuesToMove.concat(remainingValues);        
-                                        }else if(item.coop == 'gold'){
-                                            const valuesToMove = response.filter(item => item.coop == 'gold');
-                                            const remainingValues = response.filter(item => item.coop !== 'gold');
-                                            originalArray = valuesToMove.concat(remainingValues);   
-                                        }                                                                       
-                                    }                                    
-                                    
-                                    originalArray.forEach(displayTable);
-
-                                    function displayTable(item){                                      
-                                        var badgeClass = '';
-                                        var badge = '';
-                                        if(item.coop == 'silver'){
-                                            badge = 'Prefered Offer'
-                                            badgeClass = 'silver';
-                                        }else if(item.coop == 'gold'){
-                                            badge = 'Gold Badge';
-                                            badgeClass = 'gold';
+                                if(response.length > 0){                                       
+                                    window.location.href=url;  
+                                }else{  
+                                    Swal.fire({
+                                        title: "Warning!",
+                                        text: "We do not have any driving school in that Zip Code, please check our preferred Partner in that province.",
+                                        icon: "success",
+                                        confirmButtonText: 'Accept',
+                                        showCancelButton: true,
+                                    }).then((result) =>{
+                                        if(result.isConfirmed){
+                                            window.location.href=url;  
                                         }else{
-                                            badge = '';
-                                            badgeClass = '';
-                                        }
-
-                                        const formattedDate = (item.updated_at).replace("T", " ").replace(".000000Z", "");
-                                        
-                                        $('.description').append("<div class='mt-5 priceTable appendCol'> <div class='title'><div class='"+
-                                                (item.coop == 'silver'?"badge-img":"")+"'>" + 
-                                                (item.coop == 'silver'?"<img src= {{ asset('public/img/favorite.png') }} />":"")+
-                                                
-                                                "</div><div class='priceName'>" + item.name +
-                                                "</div><div class='price'>" + item.price + "€"+
-                                                "</div></div><div class='divider'>"+
-                                                "</div><div class='priceItem'>" + item.phone +                                                       
-                                                " </div> <div class='priceItem'><a href = '" + (item.website ) + "'>"+ (item.website) +"</a>"+
-                                                "</div><div class='divider'>" +                                                      
-                                                " </div> <div class='priceItem'>" + (item.books == 'Yes'?"<i class='fa-regular fa-circle-check acive-icon'></i>":"<i class='fa-regular fa-circle-check'></i>") +
-                                                " </div> <div class='priceItem'>" + (item.tests == 'Yes'?"<i class='fa-regular fa-circle-check acive-icon'></i>":"<i class='fa-regular fa-circle-check'></i>") +
-                                                " </div> <div class='priceItem'>" + (item.onsite == 'Yes'?"<i class='fa-regular fa-circle-check acive-icon'></i>":"<i class='fa-regular fa-circle-check'></i>") +
-                                                " </div> <div class='priceItem'>" + (item.online == 'Yes'?"<i class='fa-regular fa-circle-check acive-icon'></i>":"<i class='fa-regular fa-circle-check'></i>") +
-                                                " </div> <div class='priceItem'>" + item.numberOfPractical +
-                                                " </div> <div class='priceItem'>" + item.price + "€" +
-                                                " </div> <div class='priceItem'>" + item.extraLesson + "€" +
-                                                "</div></div>"
-                                            );
-                                    }
-                                }else{
-                                    // $('.description').css('display', 'none');
-                                    alert('We do not have any driving school in that Zip Code, please check our preferred Partner in that province');
-                                    $('.appendCol').css('display', 'none');
-                                    $.ajax({
-                                        url: "{{ route('getShools') }}",
-                                        type: 'post',
-                                        data: {_token: CSRF_TOKEN, coop: 'gold'},
-                                        dataType: 'json',
-                                        success: function(response){
-                                            if(response.length > 0){
-                                                $('.description').css('display', 'flex');
-                                                var originalArray = response;
-                                                originalArray.forEach(displayTable);
-
-                                                function displayTable(item){                                      
-                                                    var badgeClass = '';
-                                                    var badge = '';
-                                                    if(item.coop == 'silver'){
-                                                        badge = 'Prefered Offer'
-                                                        badgeClass = 'silver';
-                                                    }else if(item.coop == 'gold'){
-                                                        badge = 'Gold Badge';
-                                                        badgeClass = 'gold';
-                                                    }else{
-                                                        badge = '';
-                                                        badgeClass = '';
-                                                    }
-
-                                                    const formattedDate = (item.updated_at).replace("T", " ").replace(".000000Z", "");
-                                                    
-                                                    $('.description').append("<div class='mt-5 priceTable appendCol'> <div class='title'><div class='"+
-                                                        (item.coop == 'silver'?"badge-img":"")+"'>" + 
-                                                        (item.coop == 'silver'?"<img src= {{ asset('public/img/favorite.png') }} />":"")+
-                                                        "</div><div class='priceName'>" + item.name +
-                                                        "</div> <div class='price'>" + item.price + "€"+
-                                                        "</div> </div> <div class='divider'>"+
-                                                        "</div> <div class='priceItem'>" + item.phone +                                                       
-                                                        " </div> <div class='priceItem'> <a href = '" + (item.website != 'null'? item.website: '') + "'>"+ (item.website != 'null'? item.website: '') +"</a>"+
-                                                        "</div> <div class='divider'>" +                                                      
-                                                        " </div> <div class='priceItem'>" + item.books +
-                                                        " </div> <div class='priceItem'>" + item.tests +
-                                                        " </div> <div class='priceItem'>" + item.onsite +
-                                                        " </div> <div class='priceItem'>" + item.online +
-                                                        " </div> <div class='priceItem'>" + item.numberOfPractical +
-                                                        " </div> <div class='priceItem'>" + item.price + "€" +
-                                                        " </div> <div class='priceItem'>" + item.extraLesson + "€" +
-                                                    "</div></div>");
-                                                }
-                                                
-                                            }
-                                        }
-                                    })
-
-                                    console.log('no data');
+                                            console.log('Cancelled!')
+                                        }                                            
+                                    });                              
                                 }
-
                             }
                         })
                     }
-                }else{
-                    alert('Zip code must number');
+                }else{      
+                    Swal.fire({
+                        title: "Warning!",
+                        text: "Zip code must number.",
+                        icon: "success"
+                    });                
                 }
             })
         })
