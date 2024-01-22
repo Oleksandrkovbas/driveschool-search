@@ -142,7 +142,7 @@
                 </h2>
                 <div class="row">
                     @foreach($posts as $post)
-                        <div class="col-sm">
+                        <div class="col-sm-12 mb-5">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title">

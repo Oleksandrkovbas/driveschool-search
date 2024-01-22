@@ -1,10 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-2">
+        <h2>
+            Blog
+        </h2>
         <div class="row">
             @foreach($posts as $post)
-                <div class="col-sm">
+                <div class="col-sm-12 mt-3">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
@@ -16,20 +19,22 @@
                                 {{ $post->body }}
                             </p>
                         </div>
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-sm">
-                                    <a href="{{route('posts.edit', $post->id)}}" class = "btn btn-primary btn-sm">Edit</a>
-                                </div>
-                                <div class="col-sm">
-                                    <form action="{{ route('posts.destroy', $post->id) }}" method = "POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
+                        @auth
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="{{route('blogs.edit', $post->id)}}" class = "btn btn-primary btn-sm">Edit</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <form action="{{ route('blogs.destroy', $post->id) }}" method = "POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endauth
                     </div>
                 </div>
             @endforeach

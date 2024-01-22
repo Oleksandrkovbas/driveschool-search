@@ -14,10 +14,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         Add New Data
-                    </h4>
-                    <button class="close" data-dismiss = 'modal'>
-                        &times;
-                    </button>
+                    </h4>                  
                 </div>
 
                 <div class="modal-body">
@@ -139,10 +136,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         Update
-                    </h4>
-                    <button class="close" data-dismiss = 'modal'>
-                        &times;
-                    </button>
+                    </h4>                 
                 </div>
 
                 <div class="modal-body">

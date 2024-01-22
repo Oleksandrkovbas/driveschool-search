@@ -7,7 +7,7 @@
                 <h3>
                     Add a Post
                 </h3>
-                <form action="{{ route('posts.store') }}" method = "post">
+                <form action="{{ route('blogs.store') }}" method = "post">
                     @csrf
                     <div class="form-group">
                         <label for="title">Title</label>

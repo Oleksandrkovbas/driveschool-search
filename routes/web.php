@@ -33,16 +33,16 @@ Route::get('/codigo-postal/{zipcode}', [App\Http\Controllers\SchoolController::c
 
 
 
-Route::get('/posts', PostController::class .'@index')->name('posts.index');
+Route::get('/blogs', PostController::class .'@index')->name('blogs.index');
 // returns the form for adding a post
-Route::get('/posts/create', PostController::class . '@create')->name('posts.create');
+Route::get('/blogs/create', PostController::class . '@create')->name('blogs.create');
 // adds a post to the database
-Route::post('/posts', PostController::class .'@store')->name('posts.store');
+Route::post('/blogs', PostController::class .'@store')->name('blogs.store');
 // returns a page that shows a full post
-Route::get('/posts/{post}', PostController::class .'@show')->name('posts.show');
+Route::get('/blogs/{post}', PostController::class .'@show')->name('blogs.show');
 // returns the form for editing a post
-Route::get('/posts/{post}/edit', PostController::class .'@edit')->name('posts.edit');
+Route::get('/blogs/{post}/edit', PostController::class .'@edit')->name('blogs.edit');
 // updates a post
-Route::put('/posts/{post}', PostController::class .'@update')->name('posts.update');
+Route::put('/blogs/{post}', PostController::class .'@update')->name('blogs.update');
 // deletes a post
-Route::delete('/posts/{post}', PostController::class .'@destroy')->name('posts.destroy');
+Route::delete('/blogs/{post}', PostController::class .'@destroy')->name('blogs.destroy');

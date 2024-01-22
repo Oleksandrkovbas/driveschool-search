@@ -26,7 +26,7 @@ class SchoolController extends Controller
             return view('priceTable.index', compact('schools', 'zipcode'));
         }
         else{
-            $schools = Prices::where('coop', '=', 'gold')->get();
+            $schools = Prices::where('coop', '=', 'gold')->get();           
             return view('priceTable.index', compact('schools', 'zipcode'));
         }             
     }

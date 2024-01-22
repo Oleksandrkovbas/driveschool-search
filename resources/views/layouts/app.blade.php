@@ -65,7 +65,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/#blog">
+                            <a class="nav-link" href="{{route('blogs.index')}}">
                                 Blog
                             </a>
                         </li>
@@ -87,14 +87,10 @@
                                 </li> -->
                             @endif
                         @else
+                           
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('posts.index') }}" >
-                                    Post
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('posts.create') }}" >
-                                    Post Add
+                                <a class="nav-link" href="{{ route('blogs.create') }}" >
+                                    Blog Add
                                 </a>
                             </li>
                             <li class="nav-item">
