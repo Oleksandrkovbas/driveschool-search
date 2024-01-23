@@ -2,6 +2,21 @@
 
 @section('content')
 <div class="container">
+    <div class="d-flex flex-row-reverse mb-3">        
+        <div class="">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form action="{{route('import')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="file">
+                <button type="submit" class="btn btn-primary">Import Excel</button>
+            </form>
+        </div>
+    </div>
     <div class="d-flex flex-row-reverse mb-3">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
             Add New

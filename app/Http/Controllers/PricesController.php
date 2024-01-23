@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Prices;
 use DataTables;
+use Excel;
+use App\Imports\PriceImportClass;
 
 class PricesController extends Controller
 {
@@ -158,5 +160,17 @@ class PricesController extends Controller
 
         return response()->json($response); 
     } 
+
+    public function import(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+      
+        $file = $request->file('file');
+
+        Excel::import(new PriceImportClass, $file);
+        return redirect()->back()->with('success', 'Excel file imported successfully!');
+
+    }
 
 }

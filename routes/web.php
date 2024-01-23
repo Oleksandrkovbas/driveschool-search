@@ -28,6 +28,7 @@ Route::post('/getPriceData', [App\Http\Controllers\PricesController::class, 'get
 Route::post('/updatePrices', [App\Http\Controllers\PricesController::class, 'updatePrices'])->name('updatePrices');
 Route::post('/addPrices', [App\Http\Controllers\PricesController::class, 'addPrices'])->name('addPrices');
 Route::post('/deletePrice', [App\Http\Controllers\PricesController::class, 'deletePrice'])->name('deletePrice');
+Route::post('/import', [App\Http\Controllers\PricesController::class, 'import'])->name('import');
 
 Route::get('/codigo-postal/{zipcode}', [App\Http\Controllers\SchoolController::class, 'show'])->name('getShools.show');
 
@@ -46,3 +47,4 @@ Route::get('/blogs/{post}/edit', PostController::class .'@edit')->name('blogs.ed
 Route::put('/blogs/{post}', PostController::class .'@update')->name('blogs.update');
 // deletes a post
 Route::delete('/blogs/{post}', PostController::class .'@destroy')->name('blogs.destroy');
+
