@@ -117,8 +117,8 @@
                     <div class="zip-input" id="zip-input">
                         
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter ZipCode" id="zipcode">
-                            <span class="input-group-text" id="searchBtn">Search</span>
+                            <input type="text" class="form-control" placeholder="Código postal" id="zipcode">
+                            <span class="input-group-text" id="searchBtn">Buscar</span>
                         </div>            
                     </div> 
                 </div>
@@ -134,71 +134,71 @@
         <div>
     </section>
     
-    <section class = 'blog-section'>
-        <div class="container">
-            <div class="mt-5" id = "blog"> 
-                <h2>
-                    Blogs
-                </h2>
-                <div class="row">
-                    @foreach($posts as $post)
-                        <div class="col-sm-12 mb-5">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">
-                                        {{ $post->title }}
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        {{ $post->body }}
-                                    </p>
-                                </div>                               
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
+    <!--<section class = 'blog-section'>-->
+    <!--    <div class="container">-->
+    <!--        <div class="mt-5" id = "blog"> -->
+    <!--            <h2>-->
+    <!--                Blogs-->
+    <!--            </h2>-->
+    <!--            <div class="row">-->
+    <!--                @foreach($posts as $post)-->
+    <!--                    <div class="col-sm-12 mb-5">-->
+    <!--                        <div class="card">-->
+    <!--                            <div class="card-header">-->
+    <!--                                <h5 class="card-title">-->
+    <!--                                    {{ $post->title }}-->
+    <!--                                </h5>-->
+    <!--                            </div>-->
+    <!--                            <div class="card-body">-->
+    <!--                                <p class="card-text">-->
+    <!--                                    {{ $post->body }}-->
+    <!--                                </p>-->
+    <!--                            </div>                               -->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                @endforeach-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
 
     <section class = "contact-section">
         <div class="container">
             <div class="mt-5" id = "contact"> 
                 
-                <form action="">
+                <form action="{{route('sendEmail')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <h2 class = 'text-center'>
-                                Contact Us
+                                Contáctanos
                             </h2>                
                         </div>
                         
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="contact-email" id="contact-email" class = 'form-control' required>
+                                <input type="email" name="contactEmail" id="contact-email" class = 'form-control' required>
                             </div>            
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" name="contact-phone" id="contact-phone" class = 'form-control' required>
+                                <label for="phone">Teléfono</label>
+                                <input type="text" name="contactPhone" id="contact-phone" class = 'form-control' required>
                             </div>            
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="text">Text</label>
-                                <textarea type="text" name="contact-text" id="contact-text" class = 'form-control' required></textarea>
+                                <label for="text">Comentario</label>
+                                <textarea type="text" name="contactText" id="contact-text" class = 'form-control' required></textarea>
                             </div> 
                             <div class="form-group mt-3">
-                                <input type="submit" value="Submit" class="btn btn-primary">
+                                <input type="submit" value="Enviar" class="btn btn-primary">
                             </div>
                         </div>                
                     
                     </div>
-            </form>
+                </form>
             </div>
         </div>
     </section>
@@ -219,8 +219,8 @@
                     if(numberRegex.test(zipcode)){
                         if(zipcode.length != 5){
                             Swal.fire({
-                                title: "Warning!",
-                                text: "Please check your zip-code. zip-code has 5 letters.",
+                                title: "Atención",
+                                text: "Revisa el código postal",
                                 icon: "success"
                             });
                         }else{
@@ -241,8 +241,8 @@
                                         window.location.href=url;  
                                     }else{  
                                         Swal.fire({
-                                            title: "Warning!",
-                                            text: "We do not have any driving school in that Zip Code, please check our preferred Partner in that province.",
+                                            title: "Atención",
+                                            text: "No tenemos ninguna autoescuela en ese código postal, revisa nuestros favoritos",
                                             icon: "success",
                                             confirmButtonText: 'Accept',
                                             showCancelButton: true,
@@ -259,8 +259,8 @@
                         }
                     }else{      
                         Swal.fire({
-                            title: "Warning!",
-                            text: "Zip code must number.",
+                            title: "Atención",
+                            text: "Revisa el código postal",
                             icon: "success"
                         });                
                     }
@@ -273,8 +273,8 @@
                 if(numberRegex.test(zipcode)){
                     if(zipcode.length != 5){
                         Swal.fire({
-                            title: "Warning!",
-                            text: "Please check your zip-code. zip-code has 5 letters.",
+                            title: "Atención",
+                            text: "Revisa el código postal",
                             icon: "success"
                         });
                     }else{
@@ -295,8 +295,8 @@
                                     window.location.href=url;  
                                 }else{  
                                     Swal.fire({
-                                        title: "Warning!",
-                                        text: "We do not have any driving school in that Zip Code, please check our preferred Partner in that province.",
+                                        title: "Atención",
+                                        text: "No tenemos ninguna autoescuela en ese código postal, revisa nuestros favoritos",
                                         icon: "success",
                                         confirmButtonText: 'Accept',
                                         showCancelButton: true,
@@ -313,8 +313,8 @@
                     }
                 }else{      
                     Swal.fire({
-                        title: "Warning!",
-                        text: "Zip code must number.",
+                        title: "Atención",
+                        text: "Revisa el código postal",
                         icon: "success"
                     });                
                 }

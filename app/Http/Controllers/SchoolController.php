@@ -30,4 +30,50 @@ class SchoolController extends Controller
             return view('priceTable.index', compact('schools', 'zipcode'));
         }             
     }
+
+    public function sendEmail(Request $request){
+        
+        $request->validate([
+            'contactEmail'=> 'required',
+            'contactPhone'=> 'required',  
+            'contactText' => 'required'         
+        ]);
+
+        $subject = "Contact Information";
+
+        $to = 'contacto@carnetfacil.com';
+        $message = "
+            <html>
+                <head>
+                    <title>Contact Information</title>
+                </head>
+                <body>                    
+                <table>
+                <tr>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Text</th>
+                </tr>
+                <tr>
+                    <td>".$request->contactEmail."</td>
+                    <td>".$request->contactPhone."</td>
+                    <td>".$request->contactText."</td>
+                </tr>
+                </table>
+                </body>
+            </html>
+            ";
+
+            // Always set content-type when sending HTML email
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+            // More headers
+            $headers .= 'From: '.$request->contactEmail. "\r\n";          
+
+            mail($to,$subject,$message,$headers);
+
+        $response['msg'] = 'Email Sent Correctly'; 
+        return redirect()->route('welcome')->with('success', 'Email Successfully Sent!');
+    }
 }

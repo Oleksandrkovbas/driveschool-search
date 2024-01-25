@@ -20,6 +20,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
 Route::post('/getShools', [App\Http\Controllers\SchoolController::class, 'getShools'])->name('getShools');
 
 Route::get('/prices', [App\Http\Controllers\PricesController::class, 'index'])->name('prices');
@@ -31,7 +32,7 @@ Route::post('/deletePrice', [App\Http\Controllers\PricesController::class, 'dele
 Route::post('/import', [App\Http\Controllers\PricesController::class, 'import'])->name('import');
 
 Route::get('/codigo-postal/{zipcode}', [App\Http\Controllers\SchoolController::class, 'show'])->name('getShools.show');
-
+Route::post('/', [App\Http\Controllers\SchoolController::class, 'sendEmail'])->name('sendEmail');
 
 
 Route::get('/blogs', PostController::class .'@index')->name('blogs.index');

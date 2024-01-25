@@ -200,7 +200,7 @@
                             Clase extra
                         </div>                       
                     </div>                  
-                    @if(count($schools) > 1)                       
+                    @if(count($schools) > 0)                       
                         @foreach($schools as $school)
                             @php                              
                                 if($school->coop == 'silver'){
